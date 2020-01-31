@@ -1,0 +1,4 @@
+github.com/jhorwit2/running-statistics v0.0.0-20151124173315-6b40e26f5051 h1:O6Kfet10Q8ocrucHY+b1sFXDZlXbLAgUGsLLU6vUsmU=
+github.com/jhorwit2/running-statistics v0.0.0-20151124173315-6b40e26f5051/go.mod h1:QmTdtIeenw1wrM5TbckDVNt4D1yt9QSSef6TpCLvuSw=
+github.com/jhorwit2/simple-regression v0.0.0-20151124173209-d8ced50f7321 h1:D+W/p37PUPT7EQ/B4YNtoX6fTF+aJuvvttXzBZolqUw=
+github.com/jhorwit2/simple-regression v0.0.0-20151124173209-d8ced50f7321/go.mod h1:2jqL/muVengixkpcmH2FbWXolVCJZiUVzlNL7lEpjtY=

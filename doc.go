@@ -2,7 +2,11 @@
 Package fake allows for generation of fake times, true/false values and numbers
 that should follow a predefined pattern. The intent is to generate time series
 data.
+*/
 
+package fake
+
+/*
 Concepts
 
 The package breaks down time series data into two major parts, samples and the
@@ -94,5 +98,3 @@ drops away randomly 5% of the time. You would modify the above as follows:
 You can go as wild or as simple as you like. Remember, you're only limited by
 your imagination!
 */
-
-package fake

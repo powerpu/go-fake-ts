@@ -1,34 +1,33 @@
 // Package fake allows for generation of fake times, true/false values and numbers
 // that should follow a predefined pattern. The intent is to generate time series
 // data.
-
 package fake
 
 // Concepts
-// 
+//
 // The package breaks down time series data into two major parts, samples and the
 // actual data.
-// 
-// There is a distinctinction between "bad samples" and "bad data". 
-// 
+//
+// There is a distinctinction between "bad samples" and "bad data".
+//
 // An example of the distinction would be in an example of collecting CPU and
 // memory data from a server.
-// 
+//
 // In a "valid sample" the collection server would connect and retrieve this
 // information from the destination server in a particular way with no issues.
-// 
+//
 // In a "bad sample" scenario, the destination server would be running fine but
 // due to a network outage a sample would not be collected.
-// 
+//
 // In a "bad data" scenario, the destination server would be running and the
 // network would be up but due to a rogue process the CPU value would not be able
 // to be collected while memory could. The end result is that the CPU data is
 // "bad".
-// 
+//
 // Basics
-// 
+//
 // There are 4 types in this package and they all work in the same way. They are:
-// 
+//
 //  type Pattern struct {}
 //  type Random struct {}
 //  type Time struct {}

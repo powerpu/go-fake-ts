@@ -22,7 +22,7 @@ type Pattern struct {
 type PatternStats struct {
 
 	// The ID of the Pattern.
-	Id string `json:"id"`
+	ID string `json:"id"`
 
 	// Cumulative count of how many times Next() was called.
 	CTotal int64 `json:"cumulativeTotal"`
@@ -66,9 +66,9 @@ func (ps *PatternStats) Add(v bool) {
 	ps.Ratio = float64(ps.GoodCount) / float64(ps.Total)
 }
 
-// Json returns a JSON summary of the current pattern statistics and resets the
-// slot tally.
-func (ps *PatternStats) Json() string {
+// JSON returns a summary of the current pattern statistics and resets the slot
+// tally.
+func (ps *PatternStats) JSON() string {
 	out, _ := json.Marshal(ps)
 	ps.Total = 0
 	ps.GoodCount = 0
@@ -98,9 +98,9 @@ func (fp *Pattern) Vals(count int) []interface{} {
 	return makeValues(fp, count)
 }
 
-// JsonStats retrieves the current stats as s JSON string.
-func (fp *Pattern) JsonStats() string {
-	return fp.Stats.Json()
+// JSONStats retrieves the current stats as s JSON string.
+func (fp *Pattern) JSONStats() string {
+	return fp.Stats.JSON()
 }
 
 // Good returns whether the current value is "good".
@@ -125,7 +125,7 @@ func (fp *Pattern) Values(count int) []bool {
 	return out
 }
 
-// NewPattern creates a new Pattern. A pattern has a unique id, number of
+// NewPattern creates a new pattern. A pattern has a unique id, number of
 // required "good" samples followed by a number of required "bad" samples and
 // needs to know wheter to keep internal statistics.
 func NewPattern(id string, patternGood int32, patternBad int32, keepStats bool) (*Pattern, error) {
@@ -147,7 +147,7 @@ func NewPattern(id string, patternGood int32, patternBad int32, keepStats bool) 
 		patternBad:   patternBad,
 		patternRatio: float64(patternGood) / float64(patternGood+patternBad),
 		keepStats:    keepStats,
-		Stats:        &PatternStats{Id: id},
+		Stats:        &PatternStats{ID: id},
 	}
 
 	p.Next()

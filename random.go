@@ -21,7 +21,7 @@ type Random struct {
 type RandomStats struct {
 
 	// The ID of the Random.
-	Id string `json:"id"`
+	ID string `json:"id"`
 
 	// Cumulative count of how many times Next() was called.
 	CTotal int64 `json:"cumulativeTotal"`
@@ -65,9 +65,9 @@ func (rs *RandomStats) Add(v interface{}) {
 	rs.Ratio = float64(rs.GoodCount) / float64(rs.Total)
 }
 
-// Json returns a JSON summary of the current random statistics and resets the
+// JSON returns a JSON summary of the current random statistics and resets the
 // slot tally.
-func (rs *RandomStats) Json() string {
+func (rs *RandomStats) JSON() string {
 	out, _ := json.Marshal(rs)
 	rs.Total = 0
 	rs.GoodCount = 0
@@ -95,9 +95,9 @@ func (fr *Random) Vals(count int) []interface{} {
 	return makeValues(fr, count)
 }
 
-// JsonStats retrieves the current stats as s JSON string.
-func (fr *Random) JsonStats() string {
-	return fr.Stats.Json()
+// JSONStats retrieves the current stats as s JSON string.
+func (fr *Random) JSONStats() string {
+	return fr.Stats.JSON()
 }
 
 // Good returns whether the current value is "good".
@@ -140,7 +140,7 @@ func NewRandom(id string, seed int64, pctGood float64, keepStats bool) (*Random,
 		rnd:       GenerateRandom(seed),
 		pctGood:   pctGood,
 		keepStats: keepStats,
-		Stats:     &RandomStats{Id: id},
+		Stats:     &RandomStats{ID: id},
 	}
 
 	r.Next()

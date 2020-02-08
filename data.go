@@ -64,7 +64,7 @@ type Data struct {
 }
 
 type DataStats struct {
-	Id   string  `json:"id"`
+	ID   string  `json:"id"`
 	From float64 `json:"from"`
 	To   float64 `json:"to"`
 	Seed int64   `json:"seed"`
@@ -169,7 +169,7 @@ func (ds *DataStats) Add(v float64) {
 	}
 }
 
-func (ds *DataStats) Json() string {
+func (ds *DataStats) JSON() string {
 	ds.CSlope = ds.cRegression.Slope()
 	ds.Slope = ds.regression.Slope()
 	out, _ := json.MarshalIndent(ds, "", " ")
@@ -386,8 +386,8 @@ func (fd *Data) Vals(count int) []interface{} {
 	return makeValues(fd, count)
 }
 
-func (fd *Data) JsonStats() string {
-	return fd.Stats.Json()
+func (fd *Data) JSONStats() string {
+	return fd.Stats.JSON()
 }
 
 func (fd *Data) Point() float64 {
@@ -487,7 +487,7 @@ func NewData(
 
 		keepStats: keepStats,
 		Stats: &DataStats{
-			Id:          id,
+			ID:          id,
 			From:        from,
 			To:          to,
 			Seed:        seed,

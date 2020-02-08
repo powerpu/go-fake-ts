@@ -23,7 +23,7 @@ type Time struct {
 
 // TimeStats keeps track of various statistics of Time while it's running.
 type TimeStats struct {
-	Id        string    `json:"id"`
+	ID        string    `json:"id"`
 	CTotal    int64     `json:"cumulativeTotal"`
 	CEarliest time.Time `json:"cumulativeEarliestTime"`
 	CLatest   time.Time `json:"cumulativeLatestTime"`
@@ -49,9 +49,9 @@ func (ts *TimeStats) Add(v interface{}) {
 	}
 }
 
-// Json returns a JSON summary of the current time statistics and resets the
+// JSON returns a JSON summary of the current time statistics and resets the
 // slot tally.
-func (ts *TimeStats) Json() string {
+func (ts *TimeStats) JSON() string {
 	out, _ := json.Marshal(ts)
 	ts.Total = 0
 	ts.Earliest = time.Time{}
@@ -106,9 +106,9 @@ func (ft *Time) Vals(count int) []interface{} {
 	return makeValues(ft, count)
 }
 
-// JsonStats retrieves the current stats as s JSON string.
-func (ft *Time) JsonStats() string {
-	return ft.Stats.Json()
+// JSONStats retrieves the current stats as s JSON string.
+func (ft *Time) JSONStats() string {
+	return ft.Stats.JSON()
 }
 
 // Time returns the current time value as time.Time
@@ -128,10 +128,10 @@ func (ft *Time) Times(count int) []time.Time {
 	return out
 }
 
-// New Time creates a new Time. A time has a unique id, an initial first time,
-// and increment in milliseconds, a variance in milliseconds for every sample,
-// a direction of the variance (< 0 for always negative, 0 for 50/50 at random,
-// > 0 for always positive) and needs to know wheter to keep internal
+// NewTime creates a new fake time. A time has a unique id, an initial first
+// time, and increment in milliseconds, a variance in milliseconds for every
+// sample, a direction of the variance (< 0 for always negative, 0 for 50/50 at
+// random, > 0 for always positive) and needs to know wheter to keep internal
 // statistics.
 func NewTime(id string, initTs time.Time, increment int, variance int, direction int, keepStats bool) (*Time, error) {
 	if id == "" {
@@ -146,7 +146,7 @@ func NewTime(id string, initTs time.Time, increment int, variance int, direction
 		direction: direction,
 		firstVal:  true,
 		keepStats: keepStats,
-		Stats:     &TimeStats{Id: id},
+		Stats:     &TimeStats{ID: id},
 	}
 
 	t.Next()

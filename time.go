@@ -23,13 +23,26 @@ type Time struct {
 
 // TimeStats keeps track of various statistics of Time while it's running.
 type TimeStats struct {
-	ID        string    `json:"id"`
-	CTotal    int64     `json:"cumulativeTotal"`
+	// The ID of the Time
+	ID string `json:"id"`
+
+	// Cumulative count of how many times Next() was called.
+	CTotal int64 `json:"cumulativeTotal"`
+
+	// Cumulative earliest time
 	CEarliest time.Time `json:"cumulativeEarliestTime"`
-	CLatest   time.Time `json:"cumulativeLatestTime"`
-	Total     int64     `json:"slotTotal"`
-	Earliest  time.Time `json:"slotEarliestTime"`
-	Latest    time.Time `json:"slotLatestTime"`
+
+	// Cumulative latest time
+	CLatest time.Time `json:"cumulativeLatestTime"`
+
+	// Slot count of how many times Next() was called. This gets reset after every JSON() call.
+	Total int64 `json:"slotTotal"`
+
+	// Slot earliest time
+	Earliest time.Time `json:"slotEarliestTime"`
+
+	// Slot latest time
+	Latest time.Time `json:"slotLatestTime"`
 }
 
 // Add adds a value to the running tally.
@@ -88,7 +101,7 @@ func (ft *Time) Next() {
 		tmp2 = float64(1)
 	}
 
-	c := int64(Round(float64(ft.variance)*a, 0.0000000005) * tmp2)
+	c := int64(round(float64(ft.variance)*a, 0.0000000005) * tmp2)
 	ft.v = ft.ts.Add(time.Duration(c) * time.Millisecond)
 
 	if ft.keepStats {

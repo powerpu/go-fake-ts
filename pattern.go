@@ -10,8 +10,8 @@ import (
 type Pattern struct {
 	id           string
 	i            int64
-	patternGood  int32
-	patternBad   int32
+	patternGood  int
+	patternBad   int
 	patternRatio float64
 	keepStats    bool
 	Stats        *PatternStats
@@ -128,24 +128,24 @@ func (fp *Pattern) Values(count int) []bool {
 // NewPattern creates a new pattern. A pattern has a unique id, number of
 // required "good" samples followed by a number of required "bad" samples and
 // needs to know wheter to keep internal statistics.
-func NewPattern(id string, patternGood int32, patternBad int32, keepStats bool) (*Pattern, error) {
+func NewPattern(id string, good int, bad int, keepStats bool) (*Pattern, error) {
 	if id == "" {
 		return nil, errors.New("ID for a fake pattern cannot be blank")
 	}
 
-	if patternGood < 0 || patternBad < 0 {
-		return nil, errors.New("patternGood or patternBad in a fake pattern with id '" + id + "' cannot be less than 0")
+	if good < 0 || bad < 0 {
+		return nil, errors.New("good or bad in a fake pattern with id '" + id + "' cannot be less than 0")
 	}
 
-	if patternGood == 0 && patternBad == 0 {
-		return nil, errors.New("patternGood and patternBad in a fake pattern with id '" + id + "' cannot both be 0")
+	if good == 0 && bad == 0 {
+		return nil, errors.New("good and bad in a fake pattern with id '" + id + "' cannot both be 0")
 	}
 
 	p := &Pattern{
 		id:           id,
-		patternGood:  patternGood,
-		patternBad:   patternBad,
-		patternRatio: float64(patternGood) / float64(patternGood+patternBad),
+		patternGood:  good,
+		patternBad:   bad,
+		patternRatio: float64(good) / float64(good+bad),
 		keepStats:    keepStats,
 		Stats:        &PatternStats{ID: id},
 	}

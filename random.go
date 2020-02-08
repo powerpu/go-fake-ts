@@ -137,7 +137,7 @@ func NewRandom(id string, seed int64, pctGood float64, keepStats bool) (*Random,
 
 	r := &Random{
 		id:        id,
-		rnd:       GenerateRandom(seed),
+		rnd:       generateRandom(seed),
 		pctGood:   pctGood,
 		keepStats: keepStats,
 		Stats:     &RandomStats{ID: id},

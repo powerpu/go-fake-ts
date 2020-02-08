@@ -49,8 +49,8 @@ func (ts *TimeStats) Add(v interface{}) {
 	}
 }
 
-// Returns a JSON summary of the current time statistics and resets the slot
-// tally. 
+// Json returns a JSON summary of the current time statistics and resets the
+// slot tally.
 func (ts *TimeStats) Json() string {
 	out, _ := json.Marshal(ts)
 	ts.Total = 0
@@ -60,7 +60,7 @@ func (ts *TimeStats) Json() string {
 
 }
 
-// Generates the next time value.
+// Next generates the next time value.
 func (ft *Time) Next() {
 	a := rand.Float64()
 
@@ -96,48 +96,49 @@ func (ft *Time) Next() {
 	}
 }
 
-// Returns the current time value as an interface{}
+// Val returns the current time value as an interface{}
 func (ft *Time) Val() interface{} {
 	return ft.v
 }
 
-// Returns the next count of values as an interface{} array.
+// Vals returns the next count of values as an interface{} array.
 func (ft *Time) Vals(count int) []interface{} {
 	return makeValues(ft, count)
 }
 
-// Retrieves the current stats as s JSON string.
+// JsonStats retrieves the current stats as s JSON string.
 func (ft *Time) JsonStats() string {
 	return ft.Stats.Json()
 }
 
-// Returns the current time value as time.Time
+// Time returns the current time value as time.Time
 func (ft *Time) Time() time.Time {
 	return ft.v
 }
 
-// Returns the next count of values as a time.Time array.
+// Times returns the next count of values as a time.Time array.
 func (ft *Time) Times(count int) []time.Time {
 	out := make([]time.Time, count)
 
 	for i := 0; i < count; i++ {
-		ft.Next()
 		out[i] = ft.Time()
+		ft.Next()
 	}
 
 	return out
 }
 
-// Creates a new Time. A time has a unique id, an initial first time, and
-// increment in milliseconds, a variance in milliseconds for every sample, a
-// direction of the variance (< 0 for always negative, 0 for 50/50 at random, > 0 for always
-// positive) and needs to know wheter to keep internal statistics.
+// New Time creates a new Time. A time has a unique id, an initial first time,
+// and increment in milliseconds, a variance in milliseconds for every sample,
+// a direction of the variance (< 0 for always negative, 0 for 50/50 at random,
+// > 0 for always positive) and needs to know wheter to keep internal
+// statistics.
 func NewTime(id string, initTs time.Time, increment int, variance int, direction int, keepStats bool) (*Time, error) {
 	if id == "" {
 		return nil, errors.New("ID for a fake time cannot be blank")
 	}
 
-	return &Time{
+	t := &Time{
 		id:        id,
 		ts:        initTs,
 		increment: increment,
@@ -146,5 +147,8 @@ func NewTime(id string, initTs time.Time, increment int, variance int, direction
 		firstVal:  true,
 		keepStats: keepStats,
 		Stats:     &TimeStats{Id: id},
-	}, nil
+	}
+
+	t.Next()
+	return t, nil
 }

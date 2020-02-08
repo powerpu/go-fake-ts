@@ -21,32 +21,32 @@ type Pattern struct {
 // PatternStats keeps track of various statistics of a Pattern while it's running.
 type PatternStats struct {
 
-    // The ID of the Pattern.
-	Id         string  `json:"id"`
+	// The ID of the Pattern.
+	Id string `json:"id"`
 
-    // Cumulative count of how many times Next() was called.
-	CTotal     int64   `json:"cumulativeTotal"`
+	// Cumulative count of how many times Next() was called.
+	CTotal int64 `json:"cumulativeTotal"`
 
-    // Cumulative count of how many times the value was "good".
-	CGoodCount int64   `json:"cumulativeGoodCount"`
+	// Cumulative count of how many times the value was "good".
+	CGoodCount int64 `json:"cumulativeGoodCount"`
 
-    // Cumulative count of how many times the value was "bad".
-	CBadCount  int64   `json:"cumulativeBadCount"`
+	// Cumulative count of how many times the value was "bad".
+	CBadCount int64 `json:"cumulativeBadCount"`
 
-    // Cumulative ratio of good/bad
-	CRatio     float64 `json:"cumulativeRatio"`
+	// Cumulative ratio of good/bad
+	CRatio float64 `json:"cumulativeRatio"`
 
-    // Slot count of how many times Next() was called. This gets reset after every JSON() call.
-	Total      int64   `json:"slotTotal"`
+	// Slot count of how many times Next() was called. This gets reset after every JSON() call.
+	Total int64 `json:"slotTotal"`
 
-    // Slot count of how many times the value was "good". This gets reset after every JSON() call.
-	GoodCount  int64   `json:"slotGoodCount"`
+	// Slot count of how many times the value was "good". This gets reset after every JSON() call.
+	GoodCount int64 `json:"slotGoodCount"`
 
-    // Slot count of how many times the value was "bad". This gets reset after every JSON() call.
-	BadCount   int64   `json:"slotBadCount"`
+	// Slot count of how many times the value was "bad". This gets reset after every JSON() call.
+	BadCount int64 `json:"slotBadCount"`
 
-    // Slot ratio of good/bad. This gets reset after every JSON() call.
-	Ratio      float64 `json:"slotGoodRatio"`
+	// Slot ratio of good/bad. This gets reset after every JSON() call.
+	Ratio float64 `json:"slotGoodRatio"`
 }
 
 // Add adds a value to the running tally.
@@ -66,8 +66,8 @@ func (ps *PatternStats) Add(v bool) {
 	ps.Ratio = float64(ps.GoodCount) / float64(ps.Total)
 }
 
-// Returns a JSON summary of the current pattern statistics and resets the slot
-// tally. 
+// Json returns a JSON summary of the current pattern statistics and resets the
+// slot tally.
 func (ps *PatternStats) Json() string {
 	out, _ := json.Marshal(ps)
 	ps.Total = 0
@@ -78,7 +78,7 @@ func (ps *PatternStats) Json() string {
 
 }
 
-// Generates the next pattern value.
+// Next generates the next pattern value.
 func (fp *Pattern) Next() {
 	fp.i = fp.i + 1
 	f := math.Floor((float64(fp.i)/float64(fp.patternGood+fp.patternBad))*100000000) / 100000000
@@ -88,46 +88,46 @@ func (fp *Pattern) Next() {
 	}
 }
 
-// Returns the current pattern value.
+// Val returns the current pattern value.
 func (fp *Pattern) Val() interface{} {
 	return fp.v
 }
 
-// Returns the next count of values as an interface{} array.
+// Vals returns the next count of values as an interface{} array.
 func (fp *Pattern) Vals(count int) []interface{} {
 	return makeValues(fp, count)
 }
 
-// Retrieves the current stats as s JSON string.
+// JsonStats retrieves the current stats as s JSON string.
 func (fp *Pattern) JsonStats() string {
 	return fp.Stats.Json()
 }
 
-// Returns whether the current value is "good".
+// Good returns whether the current value is "good".
 func (fp *Pattern) Good() bool {
 	return fp.v
 }
 
-// Returns whether the current value is "bad".
+// Bad returns whether the current value is "bad".
 func (fp *Pattern) Bad() bool {
 	return !fp.v
 }
 
-// Returns the next count of values as a bool array.
+// Values returns the next count of values as a bool array.
 func (fp *Pattern) Values(count int) []bool {
 	out := make([]bool, count)
 
 	for i := 0; i < count; i++ {
-		fp.Next()
 		out[i] = fp.Good()
+		fp.Next()
 	}
 
 	return out
 }
 
-// Creates a new Pattern. A pattern has a unique id, number of required "good"
-// samples followed by a number of required "bad" samples and needs to know
-// wheter to keep internal statistics.
+// NewPattern creates a new Pattern. A pattern has a unique id, number of
+// required "good" samples followed by a number of required "bad" samples and
+// needs to know wheter to keep internal statistics.
 func NewPattern(id string, patternGood int32, patternBad int32, keepStats bool) (*Pattern, error) {
 	if id == "" {
 		return nil, errors.New("ID for a fake pattern cannot be blank")
@@ -141,12 +141,15 @@ func NewPattern(id string, patternGood int32, patternBad int32, keepStats bool) 
 		return nil, errors.New("patternGood and patternBad in a fake pattern with id '" + id + "' cannot both be 0")
 	}
 
-	return &Pattern{
+	p := &Pattern{
 		id:           id,
 		patternGood:  patternGood,
 		patternBad:   patternBad,
 		patternRatio: float64(patternGood) / float64(patternGood+patternBad),
 		keepStats:    keepStats,
 		Stats:        &PatternStats{Id: id},
-	}, nil
+	}
+
+	p.Next()
+	return p, nil
 }

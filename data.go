@@ -456,10 +456,11 @@ func (fd *Data) Floats(count int) []float64 {
 	return out
 }
 
-// NewData create a new fake data. Data has a unique id, number of required
+// NewData creates a new fake data. Data has a unique id, number of required
 // samples to generate. Other parameters are:
 //
-// stretchStart and stretchEnd
+// StretchStart
+// StretchEnd
 //
 // When a default graph is generated this value "stretches" or "squishes" the
 // data up and down. For example if the generated data has a minimum of 35 and
@@ -476,111 +477,111 @@ func (fd *Data) Floats(count int) []float64 {
 // samples then we will gradually reduce the stretch from 100 to 0 over 100
 // linear steps (i.e. the stretch value at the 50th sample will be 50).
 //
-// slope
+// Slope
 //
 // This will set the slope of the generated data. 0 means whatever the
 // underlying data is. Positive values means data will trend upwards, negative
 // values mean data will trend downward.
 //
-// bump
+// Bump
 //
 // Tweaking this number will "bump" the random value up (or down if negative).
 // For example if a maximum is 60, a positive "bump" will increase this value,
 // a negative "bump" will decrease it. This is useful if you want to ensure
 // values breach min/max in certain cases.
 //
-// from
+// From
 //
 // Generate data "from" this number. E.g. CPU values may be from 0 to 100.
 //
-// to
+// To
 //
 // Generate data "to" this number. E.g. CPU values may be from 0 to 100.
 //
-// limitUpper
+// LimitUpper
 //
 // If numbers go above "to", when this is "TRUE" values will be set to the
 // "to" value. E.g. a CPU cannot go above 100%.
 //
-// limitLower
+// LimitLower
 //
 // If numbers go below "from", when this is "TRUE" values will be set to the
 // "from" value. E.g. a CPU cannot go below 0%.
 //
-// permaBumpAt
+// PermaBumpAt
 //
 // Generate data "from" this number. E.g. CPU values may be from 0 to 100. Use
 // 0 to disable permanent bump.
 //
-// permaBumpBy
+// PermaBumpBy
 //
 // What value should we bump to, expressed as a percentage of "to". Can be
 // negative too.
 //
-// permaBumpSmoother
+// PermaBumpSmoother
 //
 // When smoother is 1 we will go straight from current value to bump value.
 // When smoother is above 1 when we will take this number of samples to reach
 // the bump value (i.e. gradually but quickly rise to a spike). Use 0 to
 // disable permanent bump.
 //
-// useRandom
+// UseRandom
 //
 // Whether to generate random numbers. When "TRUE" numbers will be generated
 // based on the below parameters.
 //
-// seed
+// Seed
 //
-// A seed to use for any random numbers used internally
+// A seed to use for any random numbers used internally.
 //
-// bias
+// Bias
 //
 // A parameter between 0 and 1. Use it to control the range and slope of your
 // data. Generally lower biases make the slope negative but which values
 // entirely depend on the underlying dataset. As always, have a play to
 // see the effects.
 //
-// spike
+// Spike
 //
 // Whether to generate spikes. When "TRUE" spikes will be generated based on
 // the below parameters.
 //
-// spikeEvery
+// SpikeEvery
 //
 // Starting at 0, every n samples will reach the desired spike value.
 //
-// spikeSustain
+// SpikeSustain
 //
 // When a spike is reached, for how many samples should we sustain it.
 //
-// spikeTo
+// SpikeTo
 //
 // What value should we spike to, expressed as a percentage of "to".
 //
-// spikeWobble
+// SpikeWobble
 //
 // When we're spiking and sustaining it, do we use a flat value at the top or
 // do we "bounce off the top" a little for a little variation? When "TRUE" it
 // means that when sustaining we'll add a little variance. We respect and will
 // never break the SPIKE_TO value though!
 //
-// spikeWobbleFactor
+// SpikeWobbleFactor
 //
 // A magic number to tweak the "wobbliness". Have a play with this value.
 // Generally a higher value will mean smoother values.
 //
-// spikeSmoother
+// SpikeSmoother
 //
 // When smoother is 0 we will go straight from current value to spike value.
 // When smoother is above 0 when we will take this number of samples to reach
 // the spike value (i.e. gradually but quickly rise to a spike)
 //
-// seasonality
+// Seasonality
 //
 // Whether to generate seasonality using SIN. When "TRUE" waves will be
 // generated using the WAVE parameters below.
 //
-// seasonalityWave[1-5]
+// SeasonalityWave[1-5]
 //
 // Indicates number of points where one SIN cycle will be complete.  Each wave
 // is summed to generate interference.

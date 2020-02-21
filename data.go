@@ -353,7 +353,7 @@ func (fd *Data) Next() {
 	}
 
 	f = f + (float64(fd.i) * fd.slope) + fd.bump
-	v := float64(0)
+	v := f
 
 	// Let's stretch or squish. We need to do it both up and down.
 	stv := fd.stretchStart + (float64(fd.i) * fd.stretchStep)
